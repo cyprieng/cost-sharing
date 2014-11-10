@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Create Community</h1>
+    <form action="" method="post" name="create_community">
+        {{ form.hidden_tag() }}
+        <div class="form-group {% if form.title.errors %}has-error{% endif %}">
+            Title:<br/>
+            {% for error in form.title.errors %}
+              <label class="control-label" for="inputError1">{{error}}</label>
+            {% endfor %}
+            {{ form.title(size=80, class="form-control") }}
+        </div>
+
+        <p>
+            Description:<br/>
+            {{ form.desc(class="form-control") }}
+        </p>
+
+        <p><input type="submit" class="btn btn-default" value="Create"></p>
+    </form>
+{% endblock %}
