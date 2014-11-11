@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>List of Community</h1>
+
+    <form action="" method="get" id="search_community" name="search_community">
+            {{ form.query(size=30, id="search", class="form-control", placeholder="Search...") }}
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Creator</th>
+                <th>Join</th>
+                <th></th>
+            </tr>
+        </thead>
+        {% for community in communities %}
+            <tr>
+                <td>{{ community.title }}</td>
+                <td>{{ community.desc }}</td>
+                <td>{{ community.owner.nickname }}</td>
+                <td><a class="ok" href="#"><span class="glyphicon glyphicon-ok"></a></span></td>
+                <td>{% if user==community.owner %}<a class="remove" href="#"><span class="glyphicon glyphicon-remove"></span></a>{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

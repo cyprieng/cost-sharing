@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
-from .forms import LoginForm, CreateCommunityForm
+from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm
 from .models import User, Community
 
 @lm.user_loader
@@ -76,9 +76,22 @@ def logout():
 def create_community():
     form = CreateCommunityForm()
     if form.validate_on_submit():
-        community = Community(title=form.title.data, desc=form.desc.data, user_id=g.user.id)
-        db.session.add(community)
-        db.session.commit()
+        community = Community.query.filter_by(title=form.title.data).first()
+        if community is None:
+            community = Community(title=form.title.data, desc=form.desc.data, user_id=g.user.id)
+            db.session.add(community)
+            db.session.commit()
     return render_template('create_community.html',
                            title='Create a Community',
                            form=form)
+
+@app.route('/list_community', methods=['GET', 'POST'])
+@login_required
+def list_community():
+    form = SearchCommunityForm()
+    communities = Community.query.all()
+    return render_template('list_community.html',
+                           title='List of Community',
+                           user=g.user,
+                           form=form,
+                           communities=communities)

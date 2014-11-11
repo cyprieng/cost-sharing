@@ -8,4 +8,7 @@ class LoginForm(Form):
 
 class CreateCommunityForm(Form):
     title = StringField('title', validators=[DataRequired()])
-    desc = TextAreaField('desc')
+    desc = StringField('desc')
+
+class SearchCommunityForm(Form):
+    query = StringField('query')
