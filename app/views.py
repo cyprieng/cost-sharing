@@ -81,6 +81,14 @@ def create_community():
             community = Community(title=form.title.data, desc=form.desc.data, user_id=g.user.id)
             db.session.add(community)
             db.session.commit()
+            community.addMember(g.user)
+            db.session.add(community)
+            db.session.commit()
+            community.validateUser(g.user)
+            db.session.add(community)
+
+            db.session.commit()
+
     return render_template('create_community.html',
                            title='Create a Community',
                            form=form)
@@ -88,8 +96,28 @@ def create_community():
 @app.route('/list_community', methods=['GET', 'POST'])
 @login_required
 def list_community():
+    if request.args.get('join') and request.args.get('join').isdigit():
+        community = Community.query.filter_by(id=request.args.get('join')).first()
+        community.addMember(g.user)
+        db.session.add(community)
+        db.session.commit()
+        return redirect(url_for('list_community'))
+
+    if request.args.get('leave') and request.args.get('leave').isdigit():
+        community = Community.query.filter_by(id=request.args.get('leave')).first()
+        community.removeMember(g.user)
+        db.session.commit()
+        return redirect(url_for('list_community'))
+
+    if request.args.get('remove') and request.args.get('remove').isdigit():
+        community = Community.query.filter_by(id=request.args.get('remove')).first()
+        community.delete(g.user)
+        db.session.commit()
+        return redirect(url_for('list_community'))
+
     form = SearchCommunityForm()
     communities = Community.query.all()
+
     return render_template('list_community.html',
                            title='List of Community',
                            user=g.user,

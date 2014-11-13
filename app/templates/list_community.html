@@ -22,8 +22,16 @@
                 <td>{{ community.title }}</td>
                 <td>{{ community.desc }}</td>
                 <td>{{ community.owner.nickname }}</td>
-                <td><a class="ok" href="#"><span class="glyphicon glyphicon-ok"></a></span></td>
-                <td>{% if user==community.owner %}<a class="remove" href="#"><span class="glyphicon glyphicon-remove"></span></a>{% endif %}</td>
+
+                {% if user.isMemberValidate(community) %}
+                    <td><a class="remove" href="?leave={{ community.id }}"><span class="glyphicon glyphicon-log-out"></a></span></td>
+                {% elif user.isMember(community) %}
+                    <td><span class="glyphicon glyphicon-time"></a></td>
+                {% else %}
+                    <td><a class="ok" href="?join={{ community.id }}"><span class="glyphicon glyphicon-ok"></a></span></td>
+                {% endif %}
+
+                <td>{% if user==community.owner %}<a class="remove" href="?remove={{ community.id }}"><span class="glyphicon glyphicon-remove"></span></a>{% endif %}</td>
             </tr>
         {% endfor %}
     </table>
