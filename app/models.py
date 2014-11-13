@@ -6,7 +6,7 @@ class User(db.Model):
     nickname = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     shares = db.relationship('Share', backref='author', lazy='dynamic')
-    community_owner = db.relationship('Community', backref='owner', lazy='dynamic')
+    communities_owner = db.relationship('Community', backref='owner', lazy='dynamic')
 
     def is_authenticated(self):
         return True
@@ -98,4 +98,4 @@ class Member(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), primary_key=True)
     community_id = db.Column(db.Integer, db.ForeignKey('community.id', ondelete="CASCADE"), primary_key=True)
     validate = db.Column(db.Boolean, default=False)
-    member = db.relationship('User', backref='memberOf')
+    user = db.relationship('User', backref='memberOf')

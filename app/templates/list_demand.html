@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>List of Demand</h1>
+
+    {% for community in communities %}
+        <h2>{{ community.title }}</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Mail</th>
+                    <th>Accept</th>
+                </tr>
+            </thead>
+
+            {%- set row = [0] -%}
+            {% for m in community.members %}
+                {% if m.user.isMember(community) and not m.user.isMemberValidate(community) %}
+                    {%- set _ = row.append(row.pop()+1) -%}
+                    <tr>
+                        <td>{{ m.user.nickname }}</td>
+                        <td>{{ m.user.email }}</td>
+                        <td><a class="ok" href="?accept={{ m.user.id }}&amp;community={{ community.id }}"><span class="glyphicon glyphicon-ok"></a></span></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+            {% if row[0] == 0 %}
+                <tr><td>No demand</td></tr>
+            {% endif %}
+        </table>
+        <br/><br/><br/>
+    {% endfor %}
+{% endblock %}

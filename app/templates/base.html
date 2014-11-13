@@ -41,6 +41,7 @@
             <li {% if request.path==url_for('index') %}class="active"{% endif %}><a href="{{ url_for('index') }}">Home</a></li>
             <li {% if request.path==url_for('create_community') %}class="active"{% endif %}><a href="{{ url_for('create_community') }}">Create Community</a></li>
             <li {% if request.path==url_for('list_community') %}class="active"{% endif %}><a href="{{ url_for('list_community') }}">List of Community</a></li>
+            <li {% if request.path==url_for('list_demand') %}class="active"{% endif %}><a href="{{ url_for('list_demand') }}">List of Demand</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if g.user.is_authenticated() %}<li><a href="{{ url_for('logout') }}">Logout</a></li>

@@ -123,3 +123,19 @@ def list_community():
                            user=g.user,
                            form=form,
                            communities=communities)
+
+@app.route('/list_demand', methods=['GET', 'POST'])
+@login_required
+def list_demand():
+    if request.args.get('accept') and request.args.get('accept').isdigit() and request.args.get('community') and request.args.get('community').isdigit():
+        community = Community.query.filter_by(id=request.args.get('community')).first()
+        user = User.query.filter_by(id=request.args.get('accept')).first()
+        community.validateUser(user)
+        db.session.commit()
+        return redirect(url_for('list_demand'))
+
+    communities = g.user.communities_owner
+
+    return render_template('list_demand.html',
+                           title='List of Demand',
+                           communities=communities)
