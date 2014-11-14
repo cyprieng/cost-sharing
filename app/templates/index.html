@@ -1,8 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
-    <img src="{{ user.avatar(25) }}"/>
-    {% for post in posts %}
-    <div><p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
+    <h1>Last shares</h1>
+
+    <table class="table">
+        {% for m in members %}
+            {% if user.isMemberValidate(m.community) %}
+                {% for share in m.community.shares %}
+                    <tr>
+                        <td>{{ share.title }}</td>
+                        <td>{{ share.author.nickname }}</td>
+                        <td>{{ share.timestamp }}</td>
+                        <td>{{ share.people_in }} / {{ share.number_people }} people</td>
+                        <td>${{ share.price_per_people }} / ${{ share.price_total }}</td>
+                        <td>{{ share.community.title }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </table>
 {% endblock %}

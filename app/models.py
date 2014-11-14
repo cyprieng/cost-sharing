@@ -43,7 +43,7 @@ class User(db.Model):
 
     def isMemberValidate(self, community):
         for m in self.memberOf:
-            if m.community_id == community.id and m.validate == True:
+            if m.community == community and m.validate == True:
                 return True
 
         return False
@@ -56,6 +56,7 @@ class Share(db.Model):
     number_people = db.Column(db.SmallInteger)
     price_total = db.Column(db.SmallInteger)
     price_per_people = db.Column(db.SmallInteger)
+    people_in = db.Column(db.SmallInteger, default="0")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
     community_id = db.Column(db.Integer, db.ForeignKey('community.id', ondelete="CASCADE"))
 
