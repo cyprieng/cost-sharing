@@ -16,3 +16,7 @@
 #search_community{
         float:right;
 }
+
+#create_share{
+    max-width:500px;
+}

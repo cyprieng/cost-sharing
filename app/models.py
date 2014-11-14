@@ -55,7 +55,7 @@ class Share(db.Model):
     timestamp = db.Column(db.DateTime)
     number_people = db.Column(db.SmallInteger)
     price_total = db.Column(db.SmallInteger)
-    price_per_share = db.Column(db.SmallInteger)
+    price_per_people = db.Column(db.SmallInteger)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
     community_id = db.Column(db.Integer, db.ForeignKey('community.id', ondelete="CASCADE"))
 
@@ -68,7 +68,7 @@ class Community(db.Model):
     desc = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
     shares = db.relationship('Share', backref='community', lazy='dynamic')
-    members = db.relationship('Member',cascade="all, delete-orphan",
+    members = db.relationship('Member', backref='community', cascade="all, delete-orphan",
                     passive_deletes=True)
 
     def addMember(self,user):

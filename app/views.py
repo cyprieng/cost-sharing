@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
-from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm
-from .models import User, Community
+from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm, CreateShareForm
+from .models import User, Community, Share
 
 @lm.user_loader
 def load_user(id):
@@ -139,3 +139,24 @@ def list_demand():
     return render_template('list_demand.html',
                            title='List of Demand',
                            communities=communities)
+
+@app.route('/create_share', methods=['GET', 'POST'])
+@login_required
+def create_share():
+    form = CreateShareForm()
+    form.community.choices = []
+    for m in g.user.memberOf:
+        if m.validate:
+            form.community.choices.append((str(m.community_id), m.community.title))
+
+    if form.validate_on_submit():
+        if g.user.isMemberValidate(Community.query.filter_by(id=form.community.data).first()):
+            share = Share(title=form.title.data, desc=form.desc.data, timestamp=form.date.data, number_people=form.number_people.data, price_total=form.total_price.data, price_per_people=form.price_per_people.data, user_id=g.user.id, community_id=form.community.data)
+            db.session.add(share)
+            db.session.commit()
+            return redirect(url_for('index'))
+
+
+    return render_template('create_share.html',
+                           title='Create a Share',
+                           form=form)

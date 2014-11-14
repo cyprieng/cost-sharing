@@ -1,0 +1,88 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Create a Share</h1>
+<form id="create_share" action="" method="post" name="create_share" class="form-horizontal">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group {% if form.title.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="title">Title</label>
+        {% for error in form.title.errors %}
+            <label class="control-label col-sm-2" for="title">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.title(size=80, class="form-control") }}
+        </div>
+    </div>
+
+    <div class="form-group {% if form.desc.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="desc">Description</label>
+        {% for error in form.desc.errors %}
+            <label class="control-label col-sm-2" for="desc">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.desc(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="form-group {% if form.date.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="date">Date</label>
+        {% for error in form.date.errors %}
+            <label class="control-label col-sm-2" for="date">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.date(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="form-group {% if form.number_people.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="number_people">Number of people</label>
+        {% for error in form.number_people.errors %}
+            <label class="control-label col-sm-2" for="number_people">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.number_people(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="form-group {% if form.total_price.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="total_price">Total price</label>
+        {% for error in form.total_price.errors %}
+            <label class="control-label col-sm-2" for="total_price">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.total_price(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="form-group {% if form.price_per_people.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="price_per_people">Price per people</label>
+        {% for error in form.total_price.errors %}
+            <label class="control-label col-sm-2" for="price_per_people">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.price_per_people(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="form-group {% if form.community.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="community">Community</label>
+        {% for error in form.community.errors %}
+            <label class="control-label col-sm-2" for="community">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.community(class="form-control") }}
+        </div>
+    </div>
+
+    <p><input type="submit" class="btn btn-default" value="Create"></p>
+</form>
+{% endblock %}
