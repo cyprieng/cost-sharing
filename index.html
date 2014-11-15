@@ -7,6 +7,7 @@
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src = "jquery.js"></script>
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -27,9 +28,9 @@
     </div>
     <div class="navbar-collapse collapse" id="navbar">
       <ul class="nav navbar-nav">
-        <li><a href="#sec1">About the project</a></li>
-        <li><a href="#sec2">Section 2</a></li>
-        <li><a href="#sec3">Section 3</a></li>
+        <li><a class ="page-scroll" href= "#sec1">About the project</a></li>
+        <li><a class = "page-scroll" href="#sec2">The Team</a></li>
+        <li><a href="#sec3">Screen-Shots</a></li>
       </ul>
     </div>
    </div>
@@ -39,12 +40,12 @@
   <div class="container">
     
     <h1 class = "sharit-title">SHAR'IT</h1>
-      <p class="lead1">a SoftDes project by : Giafranco, Cyprien, Bonjun and Leo</p>
+      <p class="lead1">a SoftDes project by : Gianfranco, Cyprien, Bonjun and Leo</p>
       <div>&nbsp;</div>
       <div>&nbsp;</div>
       <div>&nbsp;</div>
       <br/>
-      <a href="#sec1" class="btn btn-default btn-lg">Check our work !</a>
+      <a href="#sec3" class="btn btn-default btn-lg">Check our work !</a>
   </div>
 </div>
 
@@ -57,14 +58,24 @@
         <h1 class="centerandorange">Shar'it : A python Website</h1><br/>
         <p class="lead">The basic of the project is to split cost between people, with the exchange of money by the page. The idea is that to register you might use a mail from a community(olin mail) so you just can split with olin students.
         </p>
-        <p class ="lead">The minimum deliverable would be a website with the possibility for an user to create an account, and adding bill he wants to share. And the possibility for the user to take part of a share. <br/>
-        <p class = "lead"> Three possible extensions of our app : 
-          <br/>&nbsp;&nbsp;&nbsp;&nbsp; - Dealing with real money <br/>&nbsp;&nbsp;&nbsp;&nbsp; - Implement Paypal for charge the account<br/>&nbsp;&nbsp;&nbsp;&nbsp; - With fake money Charge and Add money when you are sharing  something <br/>
+        <p class ="lead">
+          The minimum deliverable would be a website with the possibility for an user to create an account, and adding bill he wants to share. And the possibility for the user to take part of a share. <br/>
+        </p>
+        <p class = "lead">
+          Three possible extensions of our app : <br/>&nbsp;&nbsp;&nbsp;&nbsp; - Dealing with real money <br/>&nbsp;&nbsp;&nbsp;&nbsp; - Implement Paypal for charge the account<br/>&nbsp;&nbsp;&nbsp;&nbsp; - With fake money Charge and Add money when you are sharing a bill <br/>
+        </p>
+        <p class = "lead">
+          Our first step would be to learn how to create a website with python, we've heard about two differents tools to do that : Django and Flask. We have now decided to go with Flask because it is more simple than Django and more intuitive.
+        </p>
 
-
-
-
-
+        <p class = "lead">
+          A big problem that we could encouter is about security of the program. If we want our customer to exchange money trhough the app it gotta be really secured.An alternativ to this could be to redirect the customer directly to his venmo/Paypal acount (or maybe he would have to log in first) where we would have enter the amount of money he ownes to his sharfriend, this way we would not have to deal with the security issue because paypal is already really safe.
+        </p>
+        <br/><br/>
+        <div style="text-align:center;">
+          <a href="https://github.com/cyprieng/sharit/tree/master/app" btn-align = "center" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name"> Check out our Github Repository !</span>
+          </a>    
+        </div>
       </div>
       <!--<div class="col-md-5">
         <h1 class="pull-right"><i class="icon-mobile-phone icon-3x"></i> <i class="icon-tablet icon-3x"></i> <i class="icon-laptop icon-3x"></i></h1>
@@ -77,36 +88,41 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-        <h1>Amazing Features</h1>
+        <h1 class ="colored">Our Crazy Team</h1><br/>
       </div>
     </div>
     <div class="row">
       <div class="col-md-2 col-md-offset-2 text-center">
+        <h4>Cyprien Guillemot</h4>
         <div class="featurette-item">
-          <i class="icon-rocket"></i>
-          <h4>Rocket</h4>
-          <p>Up-up-and-away with this starter template.</p>
+          <i class="icon-magnet"><img class="img-circle grayscale mini" src="Cyprien_image.jpg"></i>
+          <h5>Chief Developer : </h5>
+          <h6> Coming directly from Paris to work on the BEST app ever made (well, not yet but soon!)</h6><br/>
         </div>
       </div>
       <div class="col-md-2 text-center">
+        <h4>Gianfranco Dibattista</h4>
         <div class="featurette-item">
-          <i class="icon-magnet"></i>
-          <h4>Magnet</h4>
-          <p>For you are a magnet and I am steel.</p>
+           <i class="icon-magnet"><img class="img-circle grayscale mini" src="Giafranco_image.jpg"></i>
+           <h5>Creative director: </h5>
+          <h6> The creative part of our team, this guy can speak chilean and spanish at the same time! </h6><br/>
         </div>
       </div>
       <div class="col-md-2 text-center">
+        <h4>Leo<br/> Thibaudat</h4>
         <div class="featurette-item">
-          <i class="icon-shield"></i>
-          <h4>Shield</h4>
-          <p>Protect yourself. Don't design like it's 1999.</p>
+           <i class="icon-magnet"><img class="img-circle grayscale mini" src="Leo_image.jpg"></i>
+           <h5>Web page Designer : </h5>
+          <h6> He once tried to eat a noodle with his noze...and succeed ! </h6><br/>
+          
         </div>
       </div>
       <div class="col-md-2 text-center">
+        <h4>Bonjun <br/> Gu</h4>
         <div class="featurette-item">
-          <i class="icon-pencil"></i>
-          <h4>Scholar</h4>
-          <p>Because lead pencils are pretty smart looking.</p>
+           <i class="icon-magnet"><img class="img-circle grayscale mini" src="Bj_image.jpg"></i>
+           <h5>Intern </h5>
+           <h6> A wonderful coffee Boy </h6>   
         </div>
       </div>
     </div>
@@ -115,17 +131,15 @@
 
 <div class="callout" id="sec3">
   <div class="vert">
-    <div class="col-md-12 text-center"><h2>Random People With Smiles</h2></div>
+    <div class="col-md-12 text-center"><h2>Some screen-shots </h2></div>
     <div class="col-md-12 text-center">&nbsp;</div>
-    <div class="col-md-8 col-md-offset-2 text-center">
+    <div class="col-md-8 col-md-offset-1 text-center">
       <div class="row hidden-xs">
-       <div class="col-sm-2"><img class="img-circle grayscale" src="http://api.randomuser.me/portraits/thumb/women/12.jpg"></div>
-       <div class="col-sm-2"><img class="img-circle grayscale" src="http://api.randomuser.me/portraits/thumb/men/95.jpg"></div>
-       <div class="col-sm-2"><img class="img-circle grayscale" src="http://api.randomuser.me/portraits/thumb/women/67.jpg"></div>
-       <div class="col-sm-2"><img class="img-circle grayscale" src="http://api.randomuser.me/portraits/thumb/men/27.jpg"></div>
-       <div class="col-sm-2"><img class="img-circle grayscale" src="http://api.randomuser.me/portraits/thumb/women/15.jpg"></div>  
-       <div class="col-sm-2"><img class="img-circle grayscale" src="http://api.randomuser.me/portraits/thumb/men/18.jpg"></div>
-      </div>
+        <div class="col-sm-4"><img class="mini1" href = "last_share.png" src="last_share.png">Main Page : <br/> On this frame you can see the last things that people want to share with you
+        </div>
+        <div class="col-sm-4"><img class="mini1" href = "Community_List.png" src="Community_List.png">List of Community : <br/> You can join, create, drop a community here. If you just want to share a pizza with your friends, you create a new community and accept people with who you want to share with !</div>
+        <div class="col-sm-4"><img class="mini1" src="create_share.png">Create a share : <br/> Here you can create a share, by adding the name, a description, the costs etc ...</div>
+      </div> 
     </div>
   </div>
 </div>

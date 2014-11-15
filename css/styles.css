@@ -11,7 +11,7 @@ body {
 }
 
 /* fix bs3 horizontal scrollbar bug */
-.row { margin: 0; padding: 0 }
+.row { margin : 0; padding: 0 }
 
 
 /* use special fonts in certain elements */
@@ -22,9 +22,41 @@ h1,h2,h3,h4,.btn,.navbar a {
   text-transform: uppercase;
 
 }
-
+h5 {
+  font-family:'Voltaire',Arial,sans-serif;
+  letter-spacing:2px;
+  font-size: 15px;
+}
+h6 {
+  font-family:'Voltaire',Arial,sans-serif;
+  letter-spacing:1.5px;
+  font-size: 13px;
+}
+.transition1{
+  transition: width 0.5s;
+}
 h1 {
   font-size:50px;
+}
+.colored{
+  color :#A9A9F5 ;
+}
+
+.mini{
+  padding-bottom: 10px;
+  width:132px;
+  height: 140px;
+}
+.mini1{
+  width:auto;
+  height: 200px;
+}
+
+.page-scroll i.animated {
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 1s;
 }
 
 /* make images gray */
