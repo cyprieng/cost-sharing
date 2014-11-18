@@ -2,36 +2,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<script type="text/javascript">
-function set_openid(openid, pr)
-{
-    u = openid.search('<username>')
-    if (u != -1) {
-        // openid requires username
-        user = prompt('Enter your ' + pr + ' username:')
-        openid = openid.substr(0, u) + user
-    }
-    form = document.forms['login'];
-    form.elements['openid'].value = openid
-}
-</script>
 <h1>Sign In</h1>
-<form action="" method="post" name="login">
+<form id="login" action="" method="post" name="login" class="form-horizontal">
     {{ form.hidden_tag() }}
-    <p>
-        Please enter your OpenID, or select one of the providers below:<br>
-
-        <div class="form-group {% if form.openid.errors %}has-error{% endif %}">
-            {% for error in form.openid.errors %}
-              <label class="control-label" for="inputError1">{{error}}</label>
-            {% endfor %}
-            {{ form.openid(size=80, class="form-control") }}
-        </div>
-
-        |{% for pr in providers %}
-          <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}');">{{ pr.name }}</a> |
+    <div class="form-group {% if form.login.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="login">Login</label>
+        {% for error in form.login.errors %}
+          <label class="control-label" for="login">{{error}}</label>
         {% endfor %}
-    </p>
+
+        <div class="col-sm-10">
+            {{ form.login(size=80, class="form-control") }}
+        </div>
+    </div>
+
+    <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+        <label class="control-label col-sm-2" for="password">Password</label>
+        {% for error in form.password.errors %}
+          <label class="control-label" for="password">{{error}}</label>
+        {% endfor %}
+
+        <div class="col-sm-10">
+            {{ form.password(size=80, class="form-control") }}
+        </div>
+    </div>
 
     <div class="checkbox">
         <label>

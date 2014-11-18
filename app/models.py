@@ -3,7 +3,8 @@ import hashlib
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nickname = db.Column(db.String(64), index=True, unique=True)
+    login = db.Column(db.String(64), index=True, unique=True)
+    password = db.Column(db.String(64))
     email = db.Column(db.String(120), index=True, unique=True)
     shares = db.relationship('Share', backref='author', lazy='dynamic')
     communities_owner = db.relationship('Community', backref='owner', lazy='dynamic')
@@ -27,7 +28,7 @@ class User(db.Model):
         return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (hashlib.md5(self.email.encode('utf-8')).hexdigest(), size)
 
     def __repr__(self):
-        return '<User %r>' % (self.nickname)
+        return '<User %r>' % (self.login)
 
     def getMemberInstance(self, community):
         for m in self.memberOf:
