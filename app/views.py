@@ -46,8 +46,7 @@ def login():
         return redirect(request.args.get('next') or url_for('index'))
     return render_template('login.html',
                            title='Sign In',
-                           form=form,
-                           providers=app.config['OPENID_PROVIDERS'])
+                           form=form)
 
 @app.before_request
 def before_request():
