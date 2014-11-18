@@ -36,6 +36,10 @@ def login():
             user = User(login=login, password=password)
             db.session.add(user)
             db.session.commit()
+        elif not user.password == hashlib.md5(form.password.data.encode('utf-8')).hexdigest():
+            return render_template('login.html',
+                                   title='Sign In',
+                                   form=form)
 
         remember_me = False
         if 'remember_me' in session:
