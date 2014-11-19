@@ -3,9 +3,8 @@ import hashlib
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(64), index=True, unique=True)
-    password = db.Column(db.String(64))
     email = db.Column(db.String(120), index=True, unique=True)
+    password = db.Column(db.String(64))
     shares = db.relationship('Share', backref='author', lazy='dynamic')
     communities_owner = db.relationship('Community', backref='owner', lazy='dynamic')
 

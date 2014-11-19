@@ -1,11 +1,12 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, BooleanField, TextAreaField, DateField, IntegerField, DecimalField, SelectField, PasswordField
+from wtforms import StringField, BooleanField, TextAreaField, DateField, IntegerField, DecimalField, SelectField, PasswordField, RadioField
 from wtforms.validators import DataRequired
 import time
 import datetime
 
 class LoginForm(Form):
-    login = StringField('login', validators=[DataRequired()])
+    email = StringField('email', validators=[DataRequired()])
+    create = RadioField('Already registered?', choices=[('0','Login'),('1','Create an account')], default='0')
     password = PasswordField('password', validators=[DataRequired()])
     remember_me = BooleanField('remember_me', default=False)
 

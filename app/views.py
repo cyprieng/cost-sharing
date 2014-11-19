@@ -29,17 +29,27 @@ def login():
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
 
-        user = User.query.filter_by(login=form.login.data).first()
-        if user is None:
-            login = form.login.data
-            password = hashlib.md5(form.password.data.encode('utf-8')).hexdigest()
-            user = User(login=login, password=password)
-            db.session.add(user)
-            db.session.commit()
+        user = User.query.filter_by(email=form.email.data).first()
+        if form.create.data == '1':
+            if user is None:
+                email = form.email.data
+                password = hashlib.md5(form.password.data.encode('utf-8')).hexdigest()
+                user = User(email=email, password=password)
+                db.session.add(user)
+                db.session.commit()
+            else:
+                return render_template('login.html',
+                                       title='Sign In',
+                                       form=form)
+        elif user is None:
+            return render_template('login.html',
+                                   title='Sign In',
+                                   form=form)
         elif not user.password == hashlib.md5(form.password.data.encode('utf-8')).hexdigest():
             return render_template('login.html',
                                    title='Sign In',
                                    form=form)
+
 
         remember_me = False
         if 'remember_me' in session:
