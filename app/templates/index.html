@@ -8,7 +8,7 @@
                 {% for share in m.community.shares %}
                     <tr>
                         <td>{{ share.title }}</td>
-                        <td>{{ share.author.email }}</td>
+                        <td>{{ share.author.nickname }}</td>
                         <td>{{ share.timestamp }}</td>
                         <td>{{ share.people_in }} / {{ share.number_people }} people</td>
                         <td>${{ share.price_per_people }} / ${{ share.price_total }}</td>

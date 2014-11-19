@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ community.title }}</td>
                 <td>{{ community.desc }}</td>
-                <td>{{ community.owner.email }}</td>
+                <td>{{ community.owner.nickname }}</td>
 
                 {% if user.isMemberValidate(community) %}
                     <td><a class="remove" href="?leave={{ community.id }}"><span class="glyphicon glyphicon-log-out"></a></span></td>

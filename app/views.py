@@ -34,7 +34,7 @@ def login():
             if user is None:
                 email = form.email.data
                 password = hashlib.md5(form.password.data.encode('utf-8')).hexdigest()
-                user = User(email=email, password=password)
+                user = User(email=email, password=password, nickname = email.split('@')[0])
                 db.session.add(user)
                 db.session.commit()
             else:
