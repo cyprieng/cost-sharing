@@ -52,6 +52,7 @@
             <li {% if request.path==url_for('create_share') %}class="active"{% endif %}><a href="{{ url_for('create_share') }}">Create a Share</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li {% if request.path==url_for('settings') %}class="active"{% endif %}><a href="{{ url_for('settings') }}">Settings</a></li>
             {% if g.user.is_authenticated() %}<li><a href="{{ url_for('logout') }}">Logout</a></li>
             {% else %}<li {% if request.path==url_for('login') %}class="active"{% endif %}><a href="{{ url_for('login') }}">Login</a></li>{% endif %}
           </ul>

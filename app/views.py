@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
-from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm, CreateShareForm
+from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm, CreateShareForm, SettingsForm
 from .models import User, Community, Share
 import hashlib
 
@@ -159,4 +159,29 @@ def create_share():
 
     return render_template('create_share.html',
                            title='Create a Share',
+                           form=form)
+
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    form = SettingsForm()
+
+    if form.validate_on_submit():
+        g.user.email = form.email.data
+        g.user.nickname = form.nickname.data
+
+        if not (form.old_password.data == "" or form.new_password1.data == "" or form.new_password2.data == ""):
+            if hashlib.md5(form.old_password.data.encode('utf-8')).hexdigest() == g.user.password:
+                if form.new_password1.data == form.new_password2.data:
+                    g.user.password = hashlib.md5(form.new_password1.data.encode('utf-8')).hexdigest()
+
+        db.session.add(g.user)
+        db.session.commit()
+        return redirect(url_for('settings'))
+
+    form.email.data = g.user.email
+    form.nickname.data = g.user.nickname
+
+    return render_template('settings.html',
+                           title='Settings',
                            form=form)

@@ -25,3 +25,10 @@ class CreateShareForm(Form):
     total_price = DecimalField('total_price', validators=[DataRequired()])
     price_per_people = DecimalField('price_per_people', validators=[DataRequired()])
     community = SelectField('community', choices=[])
+
+class SettingsForm(Form):
+    email = StringField('email', validators=[DataRequired()])
+    nickname = StringField('nickname', validators=[DataRequired()])
+    old_password = PasswordField('old_password')
+    new_password1 = PasswordField('new_password1')
+    new_password2 = PasswordField('new_password2')

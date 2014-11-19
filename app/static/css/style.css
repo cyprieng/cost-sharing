@@ -17,6 +17,6 @@
         float:right;
 }
 
-#create_share, #login{
+#create_share, #login, #update_profile{
     max-width:500px;
 }
