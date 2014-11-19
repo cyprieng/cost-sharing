@@ -18,7 +18,6 @@
                 {% if m.user.isMember(community) and not m.user.isMemberValidate(community) %}
                     {%- set _ = row.append(row.pop()+1) -%}
                     <tr>
-                        <td>{{ m.user.login }}</td>
                         <td>{{ m.user.email }}</td>
                         <td><a class="ok" href="?accept={{ m.user.id }}&amp;community={{ community.id }}"><span class="glyphicon glyphicon-ok"></a></span></td>
                     </tr>
