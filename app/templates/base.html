@@ -38,14 +38,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li {% if request.path==url_for('index') %}class="active"{% endif %}><a href="{{ url_for('index') }}">Home</a></li>
+            <li {% if request.path==url_for('index') or request.path=='/' %}class="active"{% endif %}><a href="{{ url_for('index') }}">Home</a></li>
 
-            <li class="dropdown">
+            <li class="dropdown{% if request.path==url_for('create_community') or request.path==url_for('list_community') or request.path==url_for('list_demand') %} active{% endif %}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Community <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                    <li {% if request.path==url_for('create_community') %}class="active"{% endif %}><a href="{{ url_for('create_community') }}">Create Community</a></li>
-                    <li {% if request.path==url_for('list_community') %}class="active"{% endif %}><a href="{{ url_for('list_community') }}">List of Community</a></li>
-                    <li {% if request.path==url_for('list_demand') %}class="active"{% endif %}><a href="{{ url_for('list_demand') }}">List of Demand</a></li>
+                    <li><a href="{{ url_for('create_community') }}">Create Community</a></li>
+                    <li><a href="{{ url_for('list_community') }}">List of Community</a></li>
+                    <li><a href="{{ url_for('list_demand') }}">List of Demand</a></li>
                 </ul>
             </li>
 
