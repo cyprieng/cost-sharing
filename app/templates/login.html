@@ -6,7 +6,7 @@
 <form id="login" action="" method="post" name="login" class="form-horizontal">
     {{ form.hidden_tag() }}
     <div class="form-group {% if form.email.errors %}has-error{% endif %}">
-        <label class="control-label col-sm-2" for="email">email</label>
+        <label class="control-label col-sm-2" for="email">Email</label>
         {% for error in form.email.errors %}
           <label class="control-label" for="email">{{error}}</label>
         {% endfor %}
