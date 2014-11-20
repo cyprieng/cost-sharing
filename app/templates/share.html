@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{{ share.title }}</h1>
+    <p>{{ share.desc }}</p>
+
+    <table class="table">
+        <tr><td>{{ share.title }}</td></tr>
+        <tr><td>{{ share.author.nickname }}</td></tr>
+        <tr><td>{{ share.timestamp }}</td></tr>
+        <tr><td>{{ share.people_in }} / {{ share.number_people }} people</td></tr>
+        <tr><td>${{ share.price_per_people }} / ${{ share.price_total }}</td></tr>
+    </table>
+{% endblock %}

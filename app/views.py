@@ -185,3 +185,16 @@ def settings():
     return render_template('settings.html',
                            title='Settings',
                            form=form)
+
+@app.route('/share/<share_id>', methods=['GET', 'POST'])
+@login_required
+def share(share_id):
+    share = Share.query.filter_by(id=share_id).first()
+    if not g.user.isMemberValidate(share.community):
+        return render_template('index.html',
+                               title="Home",
+                               form=form)
+
+    return render_template('share.html',
+                           title=share.title,
+                           share=share)
