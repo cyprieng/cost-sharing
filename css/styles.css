@@ -69,7 +69,10 @@ img.grayscale {
 .icon-bar {
    background-color:#fff;
 }
-
+.miniDiagram{
+text-align: center;
+  width: 700px 
+}
 .scroll-down a, .scroll-top a {
    color:#ffffff;
 }
