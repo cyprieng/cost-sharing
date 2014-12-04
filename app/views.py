@@ -90,6 +90,7 @@ def create_community():
             db.session.add(community)
 
             db.session.commit()
+            return redirect(url_for('list_community'))
 
     return render_template('create_community.html',
                            title='Create a Community',
