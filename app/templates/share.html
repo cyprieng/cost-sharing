@@ -6,7 +6,13 @@
     <table class="table">
         <tr><td>{{ share.author.nickname }}</td></tr>
         <tr><td>{{ share.timestamp }}</td></tr>
-        <tr><td>{{ share.people_in }} / {{ share.number_people }} people</td></tr>
+        <tr><td>{{ share.people_in|length }} / {{ share.number_people }} people</td></tr>
         <tr><td>${{ share.price_per_people }} / ${{ share.price_total }}</td></tr>
     </table>
+
+    {% if not alreadyIn %}
+        <a href="{{ url_for('joinshare', share_id=share.id) }}" class="btn btn-default btn-xlarge">Join share</a>
+    {% else %}
+        <a href="{{ url_for('leaveshare', share_id=share.id) }}" class="btn btn btn-danger btn-xlarge">Leave share</a>
+    {% endif %}
 {% endblock %}

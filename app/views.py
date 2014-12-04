@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
 from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm, CreateShareForm, SettingsForm, MoneyForm
-from .models import User, Community, Share
+from .models import User, Community, Share, JoinShare
 import hashlib
 import urllib.request
 import re
@@ -193,6 +193,7 @@ def settings():
 @login_required
 def share(share_id):
     share = Share.query.filter_by(id=share_id).first()
+    alreadyIn = len(JoinShare.query.filter_by(user_id=g.user.id, share_id=share_id).all()) > 0
     if not g.user.isMemberValidate(share.community):
         return render_template('index.html',
                                title="Home",
@@ -200,6 +201,7 @@ def share(share_id):
 
     return render_template('share.html',
                            title=share.title,
+                           alreadyIn=alreadyIn,
                            share=share)
 
 @app.route('/money', methods=['GET', 'POST'])
@@ -231,3 +233,30 @@ def payment(amount):
         db.session.commit()
 
     return redirect(url_for('money'))
+
+@app.route('/joinshare/<share_id>', methods=['GET', 'POST'])
+@login_required
+def joinshare(share_id):
+    share = Share.query.filter_by(id=share_id).first()
+    if(g.user.money > share.price_per_people and share.number_people > len(share.people_in)):
+        js = JoinShare(user_id=g.user.id, share_id=share_id);
+        g.user.money = g.user.money - share.price_per_people
+        db.session.add(g.user)
+        db.session.add(js)
+        db.session.commit()
+
+    return redirect(url_for('share', share_id = share_id))
+
+@app.route('/leaveshare/<share_id>', methods=['GET', 'POST'])
+@login_required
+def leaveshare(share_id):
+    share = Share.query.filter_by(id=share_id).first()
+    alreadyIn = len(JoinShare.query.filter_by(user_id=g.user.id, share_id=share_id).all()) > 0
+    if(alreadyIn):
+        js = JoinShare.query.filter_by(user_id=g.user.id, share_id=share_id).first()
+        g.user.money = g.user.money + share.price_per_people
+        db.session.add(g.user)
+        db.session.delete(js)
+        db.session.commit()
+
+    return redirect(url_for('share', share_id = share_id))

@@ -58,7 +58,6 @@ class Share(db.Model):
     number_people = db.Column(db.SmallInteger)
     price_total = db.Column(db.SmallInteger)
     price_per_people = db.Column(db.SmallInteger)
-    people_in = db.Column(db.SmallInteger, default="0")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
     community_id = db.Column(db.Integer, db.ForeignKey('community.id', ondelete="CASCADE"))
 
@@ -102,3 +101,9 @@ class Member(db.Model):
     community_id = db.Column(db.Integer, db.ForeignKey('community.id', ondelete="CASCADE"), primary_key=True)
     validate = db.Column(db.Boolean, default=False)
     user = db.relationship('User', backref='memberOf')
+
+class JoinShare(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), primary_key=True)
+    share_id = db.Column(db.Integer, db.ForeignKey('share.id', ondelete="CASCADE"), primary_key=True)
+    user = db.relationship('User', backref='joinShare')
+    share = db.relationship('Share', backref='people_in')

@@ -10,7 +10,7 @@
                         <td>{{ share.title }}</td>
                         <td>{{ share.author.nickname }}</td>
                         <td>{{ share.timestamp }}</td>
-                        <td>{{ share.people_in }} / {{ share.number_people }} people</td>
+                        <td>{{ share.people_in|length }} / {{ share.number_people }} people</td>
                         <td>${{ share.price_per_people }} / ${{ share.price_total }}</td>
                         <td>{{ share.community.title }}</td>
                         <td><a href="{{ url_for('share', share_id=share.id) }}" class="btn btn-default btn-xlarge">Details</a></td>
