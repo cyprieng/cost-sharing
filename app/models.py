@@ -9,6 +9,7 @@ class User(db.Model):
     money = db.Column(db.Integer, default=0)
     shares = db.relationship('Share', backref='author', lazy='dynamic')
     communities_owner = db.relationship('Community', backref='owner', lazy='dynamic')
+    shares_creator = db.relationship('Share', backref='creator', lazy='dynamic')
 
     def is_authenticated(self):
         return True

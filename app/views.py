@@ -260,3 +260,29 @@ def leaveshare(share_id):
         db.session.commit()
 
     return redirect(url_for('share', share_id = share_id))
+
+@app.route('/your_share', methods=['GET', 'POST'])
+@login_required
+def your_share():
+    shares = g.user.shares_creator
+    sharesIn = g.user.joinShare
+    print(sharesIn)
+
+    return render_template('your_share.html',
+                           title="Your share",
+                           shares=shares,
+                           sharesIn=sharesIn)
+
+@app.route('/remove_share/<share_id>', methods=['GET', 'POST'])
+@login_required
+def remove_share(share_id):
+    share = Share.query.filter_by(id=share_id).first()
+    for js in share.people_in:
+        js.user.money += share.price_per_people
+        db.session.add(js.user)
+        db.session.delete(js)
+
+    db.session.delete(share)
+    db.session.commit()
+
+    return redirect(url_for('your_share'))

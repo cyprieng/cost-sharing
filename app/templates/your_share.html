@@ -1,0 +1,36 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Shares you create</h1>
+
+    <table class="table">
+        {% for share in shares %}
+            <tr>
+                <td>{{ share.title }}</td>
+                <td>{{ share.author.nickname }}</td>
+                <td>{{ share.timestamp }}</td>
+                <td>{{ share.people_in|length }} / {{ share.number_people }} people</td>
+                <td>${{ share.price_per_people }} / ${{ share.price_total }}</td>
+                <td>{{ share.community.title }}</td>
+                <td><a class="remove" href="{{ url_for('remove_share', share_id=share.id) }}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h1>Shares you are in</h1>
+
+    <table class="table">
+        {% for js in sharesIn %}
+            <tr>
+                <td>{{ js.share.title }}</td>
+                <td>{{ js.share.author.nickname }}</td>
+                <td>{{ js.share.timestamp }}</td>
+                <td>{{ js.share.people_in|length }} / {{ js.share.number_people }} people</td>
+                <td>${{ js.share.price_per_people }} / ${{ js.share.price_total }}</td>
+                <td>{{ js.share.community.title }}</td>
+                <td><a href="{{ url_for('share', share_id=js.share.id) }}" class="btn btn-default btn-xlarge">Details</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

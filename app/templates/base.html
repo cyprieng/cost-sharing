@@ -50,6 +50,7 @@
             </li>
 
             <li {% if request.path==url_for('create_share') %}class="active"{% endif %}><a href="{{ url_for('create_share') }}">Create a Share</a></li>
+            <li {% if request.path==url_for('your_share') %}class="active"{% endif %}><a href="{{ url_for('your_share') }}">Your Shares</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li {% if request.path==url_for('settings') %}class="active"{% endif %}><a href="{{ url_for('settings') }}">Settings</a></li>
