@@ -11,8 +11,8 @@
     </table>
 
     {% if not alreadyIn %}
-        <a href="{{ url_for('joinshare', share_id=share.id) }}" class="btn btn-default btn-xlarge">Join share</a>
+        <a href="{{ url_for('joinshare', share_id=share.id) }}" class="btn btn-default btn-xlarge" {% if share.closed %}disabled="disabled"{% endif %}>Join share</a>
     {% else %}
-        <a href="{{ url_for('leaveshare', share_id=share.id) }}" class="btn btn btn-danger btn-xlarge">Leave share</a>
+        <a href="{{ url_for('leaveshare', share_id=share.id) }}" class="btn btn btn-danger btn-xlarge" {% if share.closed %}disabled="disabled"{% endif %}>Leave share</a>
     {% endif %}
 {% endblock %}

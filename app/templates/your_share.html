@@ -6,14 +6,18 @@
 
     <table class="table">
         {% for share in shares %}
-            <tr>
+            <tr {% if share.closed %}class="success"{% endif %}>
                 <td>{{ share.title }}</td>
                 <td>{{ share.author.nickname }}</td>
                 <td>{{ share.timestamp }}</td>
                 <td>{{ share.people_in|length }} / {{ share.number_people }} people</td>
                 <td>${{ share.price_per_people }} / ${{ share.price_total }}</td>
                 <td>{{ share.community.title }}</td>
-                <td><a class="remove" href="{{ url_for('remove_share', share_id=share.id) }}"><span class="glyphicon glyphicon-remove"></span></a></td>
+
+                {% if not share.closed %}
+                    <td><a class="ok" href="{{ url_for('close_share', share_id=share.id) }}"><span class="glyphicon glyphicon-ok"></span></a></td>
+                    <td><a class="remove" href="{{ url_for('remove_share', share_id=share.id) }}"><span class="glyphicon glyphicon-remove"></span></a></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
@@ -22,7 +26,7 @@
 
     <table class="table">
         {% for js in sharesIn %}
-            <tr>
+            <tr {% if js.share.closed %}class="success"{% endif %}>
                 <td>{{ js.share.title }}</td>
                 <td>{{ js.share.author.nickname }}</td>
                 <td>{{ js.share.timestamp }}</td>

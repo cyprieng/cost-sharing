@@ -6,7 +6,7 @@
         {% for m in members %}
             {% if user.isMemberValidate(m.community) %}
                 {% for share in m.community.shares %}
-                    <tr>
+                    <tr {% if share.closed %}class="success"{% endif %}>
                         <td>{{ share.title }}</td>
                         <td>{{ share.author.nickname }}</td>
                         <td>{{ share.timestamp }}</td>

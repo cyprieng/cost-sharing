@@ -59,6 +59,7 @@ class Share(db.Model):
     number_people = db.Column(db.SmallInteger)
     price_total = db.Column(db.SmallInteger)
     price_per_people = db.Column(db.SmallInteger)
+    closed = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
     community_id = db.Column(db.Integer, db.ForeignKey('community.id', ondelete="CASCADE"))
 

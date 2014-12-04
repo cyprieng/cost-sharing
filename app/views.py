@@ -286,3 +286,13 @@ def remove_share(share_id):
     db.session.commit()
 
     return redirect(url_for('your_share'))
+
+@app.route('/close_share/<share_id>', methods=['GET', 'POST'])
+@login_required
+def close_share(share_id):
+    share = Share.query.filter_by(id=share_id).first()
+    share.closed = True
+    db.session.add(share)
+    db.session.commit()
+
+    return redirect(url_for('your_share'))
