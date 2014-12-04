@@ -109,3 +109,13 @@ class JoinShare(db.Model):
     share_id = db.Column(db.Integer, db.ForeignKey('share.id', ondelete="CASCADE"), primary_key=True)
     user = db.relationship('User', backref='joinShare')
     share = db.relationship('Share', backref='people_in')
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
+    msg = db.Column(db.Text)
+    user = db.relationship('User', backref='notifications')
+
+    def add(user, msg):
+        notif = Notification(user_id=user, msg=msg)
+        db.session.add(notif)

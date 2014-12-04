@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
 from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm, CreateShareForm, SettingsForm, MoneyForm
-from .models import User, Community, Share, JoinShare
+from .models import User, Community, Share, JoinShare, Notification
 import hashlib
 import urllib.request
 import re
@@ -243,6 +243,7 @@ def joinshare(share_id):
         g.user.money = g.user.money - share.price_per_people
         db.session.add(g.user)
         db.session.add(js)
+        Notification.add(g.user.id, "You join the share: "+share.title+". "+str(share.price_per_people)+"$ has been charged on your account.")
         db.session.commit()
 
     return redirect(url_for('share', share_id = share_id))
@@ -257,6 +258,7 @@ def leaveshare(share_id):
         g.user.money = g.user.money + share.price_per_people
         db.session.add(g.user)
         db.session.delete(js)
+        Notification.add(g.user.id, "You leave the share: "+share.title+". "+str(share.price_per_people)+"$ has been added to your account.")
         db.session.commit()
 
     return redirect(url_for('share', share_id = share_id))
@@ -266,7 +268,6 @@ def leaveshare(share_id):
 def your_share():
     shares = g.user.shares_creator
     sharesIn = g.user.joinShare
-    print(sharesIn)
 
     return render_template('your_share.html',
                            title="Your share",
@@ -281,6 +282,7 @@ def remove_share(share_id):
         js.user.money += share.price_per_people
         db.session.add(js.user)
         db.session.delete(js)
+        Notification.add(js.user.id, "The share "+share.title+" has been removed")
 
     db.session.delete(share)
     db.session.commit()
@@ -295,6 +297,19 @@ def close_share(share_id):
     db.session.add(share)
     share.creator.money += len(share.people_in) * share.price_per_people
     db.session.add(share.creator)
+
+    for js in share.people_in:
+        Notification.add(js.user.id, "The share "+share.title+" has been closed")
+
     db.session.commit()
 
     return redirect(url_for('your_share'))
+
+@app.route('/notification', methods=['GET', 'POST'])
+@login_required
+def notification():
+    notifications = reversed(g.user.notifications)
+
+    return render_template('notifications.html',
+                           title="Notification",
+                           notifications=notifications)
