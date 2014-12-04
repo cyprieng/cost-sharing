@@ -293,6 +293,8 @@ def close_share(share_id):
     share = Share.query.filter_by(id=share_id).first()
     share.closed = True
     db.session.add(share)
+    share.creator.money += len(share.people_in) * share.price_per_people
+    db.session.add(share.creator)
     db.session.commit()
 
     return redirect(url_for('your_share'))
