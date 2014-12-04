@@ -32,3 +32,6 @@ class SettingsForm(Form):
     old_password = PasswordField('old_password')
     new_password1 = PasswordField('new_password1')
     new_password2 = PasswordField('new_password2')
+
+class MoneyForm(Form):
+    amount = IntegerField('amount', validators=[DataRequired()])

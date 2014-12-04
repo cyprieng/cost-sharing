@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Your money</h1>
+    <p>You have ${{ user.money }} on your account</p>
+
+    <form id="money" method="post" name="money" class="form-inline">
+        {{ form.hidden_tag() }}
+        <div class="form-group {% if form.amount.errors %}has-error{% endif %}">
+            <div class="input-group">
+                <label class="sr-only" for="amount">Amount</label>
+                {% for error in form.amount.errors %}
+                  <label class="sr-only" for="amount">{{error}}</label>
+                {% endfor %}
+
+                {{ form.amount(size=80, class="form-control") }}
+                <div class="input-group-addon">$</div>
+            </div>
+
+            <input type="submit" class="btn btn-default" value="Add Money">
+        </div>
+    </form>
+{% endblock %}

@@ -1,9 +1,11 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
-from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm, CreateShareForm, SettingsForm
+from .forms import LoginForm, CreateCommunityForm, SearchCommunityForm, CreateShareForm, SettingsForm, MoneyForm
 from .models import User, Community, Share
 import hashlib
+import urllib.request
+import re
 
 @lm.user_loader
 def load_user(id):
@@ -198,3 +200,33 @@ def share(share_id):
     return render_template('share.html',
                            title=share.title,
                            share=share)
+
+@app.route('/money', methods=['GET', 'POST'])
+@login_required
+def money():
+    form = MoneyForm()
+    if form.validate_on_submit():
+        s = urllib.request.urlopen("https://api-3t.sandbox.paypal.com/nvp?USER=cyprien.guillemot-facilitator_api1.gmail.com&PWD=KBH5YU4GQ5PGX7P8&SIGNATURE=AVzv9iWQ4Tuaj7RRRQA.nVMPylGdAm5oVB57eq7Saxhu69Prw5.cGRpL&METHOD=SetExpressCheckout&VERSION=78&PAYMENTREQUEST_0_PAYMENTACTION=SALE&PAYMENTREQUEST_0_AMT="+str(form.amount.data)+"&PAYMENTREQUEST_0_CURRENCYCODE=USD&cancelUrl="+url_for('money', _external=True)+"&returnUrl="+url_for('payment', amount = form.amount.data, _external=True))
+        data = s.read().decode('utf-8-sig')
+
+        token = re.sub(r'TOKEN=([^&]*)&.*', r'\1', data)
+
+        return redirect("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token="+token)
+
+    return render_template('money.html',
+                           title="Money",
+                           form=form,
+                           user=g.user)
+
+
+@app.route('/payment/<amount>', methods=['GET', 'POST'])
+@login_required
+def payment(amount):
+    s = urllib.request.urlopen("https://api-3t.sandbox.paypal.com/nvp?USER=cyprien.guillemot-facilitator_api1.gmail.com&PWD=KBH5YU4GQ5PGX7P8&SIGNATURE=AVzv9iWQ4Tuaj7RRRQA.nVMPylGdAm5oVB57eq7Saxhu69Prw5.cGRpL&METHOD=DoExpressCheckoutPayment&VERSION=78&TOKEN="+ request.args.get('token')+"&PAYERID="+ request.args.get('PayerID')+"&PAYMENTREQUEST_0_PAYMENTACTION=SALE&PAYMENTREQUEST_0_AMT="+amount+"&PAYMENTREQUEST_0_CURRENCYCODE=USD")
+    data = s.read().decode('utf-8-sig')
+    if(len(re.findall("ACK=Success",data)) > 0):
+        g.user.money = g.user.money + int(amount)
+        db.session.add(g.user)
+        db.session.commit()
+
+    return redirect(url_for('money'))

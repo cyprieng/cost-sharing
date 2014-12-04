@@ -18,5 +18,9 @@
 }
 
 #create_share, #login, #update_profile{
-    max-width:500px;
+    max-width:200px;
+}
+
+#money input[type="text"]{
+    width:50px;
 }
