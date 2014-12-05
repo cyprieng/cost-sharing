@@ -119,18 +119,21 @@ def list_community():
         community = Community.query.filter_by(id=request.args.get('join')).first()
         community.addMember(g.user)
         db.session.add(community)
+        Notification.add(g.user.id, "You request access to the community: "+community.title)
         db.session.commit()
         return redirect(url_for('list_community'))
 
     if request.args.get('leave') and request.args.get('leave').isdigit():
         community = Community.query.filter_by(id=request.args.get('leave')).first()
         community.removeMember(g.user)
+        Notification.add(g.user.id, "You leave the community: "+community.title)
         db.session.commit()
         return redirect(url_for('list_community'))
 
     if request.args.get('remove') and request.args.get('remove').isdigit():
         community = Community.query.filter_by(id=request.args.get('remove')).first()
         community.delete(g.user)
+        Notification.add(g.user.id, "You removed the community: "+community.title)
         db.session.commit()
         return redirect(url_for('list_community'))
 
