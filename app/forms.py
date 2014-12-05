@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, BooleanField, TextAreaField, DateField, IntegerField, DecimalField, SelectField, PasswordField, RadioField
+from wtforms import StringField, BooleanField, TextAreaField, DateTimeField, IntegerField, DecimalField, SelectField, PasswordField, RadioField
 from wtforms.validators import DataRequired
 import time
 import datetime
@@ -20,7 +20,7 @@ class SearchCommunityForm(Form):
 class CreateShareForm(Form):
     title = StringField('title', validators=[DataRequired()])
     desc = TextAreaField('desc', validators=[DataRequired()])
-    date = DateField('date', default=time, validators=[DataRequired()], format='%m/%d/%Y')
+    date = DateTimeField('date', default=time, validators=[DataRequired()], format='%m/%d/%Y %I:%M %p')
     number_people = IntegerField('number_people', validators=[DataRequired()])
     total_price = DecimalField('total_price', validators=[DataRequired()])
     price_per_people = DecimalField('price_per_people', validators=[DataRequired()])
