@@ -120,6 +120,7 @@ def list_community():
         community.addMember(g.user)
         db.session.add(community)
         Notification.add(g.user.id, "You request access to the community: "+community.title)
+        Notification.add(community.owner.id, g.user.nickname+" request access to your community: "+community.title)
         db.session.commit()
         return redirect(url_for('list_community'))
 
