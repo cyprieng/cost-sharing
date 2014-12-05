@@ -6,6 +6,8 @@ from .models import User, Community, Share, JoinShare, Notification
 import hashlib
 import urllib.request
 import re
+import datetime
+import time
 
 @lm.user_loader
 def load_user(id):
@@ -19,6 +21,7 @@ def index():
     members = user.memberOf
     return render_template('index.html',
                            title='Home',
+                           notif=g.notif.msg,
                            user=user,
                            members=members)
 
@@ -42,6 +45,7 @@ def login():
             else:
                 return render_template('login.html',
                                        title='Sign In',
+                                       notif=g.notif.msg,
                                        form=form)
         elif user is None:
             return render_template('login.html',
@@ -50,6 +54,7 @@ def login():
         elif not user.password == hashlib.md5(form.password.data.encode('utf-8')).hexdigest():
             return render_template('login.html',
                                    title='Sign In',
+                                   notif=g.notif.msg,
                                    form=form)
 
 
@@ -62,11 +67,19 @@ def login():
         return redirect(request.args.get('next') or url_for('index'))
     return render_template('login.html',
                            title='Sign In',
+                           notif=g.notif.msg,
                            form=form)
 
 @app.before_request
 def before_request():
     g.user = current_user
+    if(g.user.is_authenticated() and len(g.user.notifications) > 0 and g.user.lastReadNotif < g.user.notifications[-1].timestamp):
+        g.notif = g.user.notifications[-1];
+        g.user.lastReadNotif = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        db.session.add(g.user)
+        db.session.commit()
+    else:
+        g.notif = Notification(msg="")
 
 @app.route('/logout')
 def logout():
@@ -89,11 +102,14 @@ def create_community():
             community.validateUser(g.user)
             db.session.add(community)
 
+            Notification.add(g.user.id, "You create the community: "+community.title)
+
             db.session.commit()
             return redirect(url_for('list_community'))
 
     return render_template('create_community.html',
                            title='Create a Community',
+                           notif=g.notif.msg,
                            form=form)
 
 @app.route('/list_community', methods=['GET', 'POST'])
@@ -125,6 +141,7 @@ def list_community():
                            title='List of Community',
                            user=g.user,
                            form=form,
+                           notif=g.notif.msg,
                            communities=communities)
 
 @app.route('/list_demand', methods=['GET', 'POST'])
@@ -134,6 +151,7 @@ def list_demand():
         community = Community.query.filter_by(id=request.args.get('community')).first()
         user = User.query.filter_by(id=request.args.get('accept')).first()
         community.validateUser(user)
+        Notification.add(user.id, "You have been accepted in the community: "+community.title)
         db.session.commit()
         return redirect(url_for('list_demand'))
 
@@ -141,6 +159,7 @@ def list_demand():
 
     return render_template('list_demand.html',
                            title='List of Demand',
+                           notif=g.notif.msg,
                            communities=communities)
 
 @app.route('/create_share', methods=['GET', 'POST'])
@@ -162,6 +181,7 @@ def create_share():
 
     return render_template('create_share.html',
                            title='Create a Share',
+                           notif=g.notif.msg,
                            form=form)
 
 @app.route('/settings', methods=['GET', 'POST'])
@@ -187,6 +207,7 @@ def settings():
 
     return render_template('settings.html',
                            title='Settings',
+                           notif=g.notif.msg,
                            form=form)
 
 @app.route('/share/<share_id>', methods=['GET', 'POST'])
@@ -197,11 +218,13 @@ def share(share_id):
     if not g.user.isMemberValidate(share.community):
         return render_template('index.html',
                                title="Home",
+                               notif=g.notif.msg,
                                form=form)
 
     return render_template('share.html',
                            title=share.title,
                            alreadyIn=alreadyIn,
+                           notif=g.notif.msg,
                            share=share)
 
 @app.route('/money', methods=['GET', 'POST'])
@@ -219,6 +242,7 @@ def money():
     return render_template('money.html',
                            title="Money",
                            form=form,
+                           notif=g.notif.msg,
                            user=g.user)
 
 
@@ -230,6 +254,7 @@ def payment(amount):
     if(len(re.findall("ACK=Success",data)) > 0):
         g.user.money = g.user.money + int(amount)
         db.session.add(g.user)
+        Notification.add(g.user.id, "You add "+amount+"$ to your account.")
         db.session.commit()
 
     return redirect(url_for('money'))
@@ -272,6 +297,7 @@ def your_share():
     return render_template('your_share.html',
                            title="Your share",
                            shares=shares,
+                           notif=g.notif.msg,
                            sharesIn=sharesIn)
 
 @app.route('/remove_share/<share_id>', methods=['GET', 'POST'])
@@ -312,4 +338,5 @@ def notification():
 
     return render_template('notifications.html',
                            title="Notification",
+                           notif=g.notif.msg,
                            notifications=notifications)

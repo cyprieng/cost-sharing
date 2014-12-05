@@ -5,7 +5,7 @@
     <table class="table table-striped">
         {% for n in notifications %}
             <tr>
-                <td>{{ n.msg }}</td>
+                <td>{{ n.msg }} <span class="time">{{ n.timestamp }}</span></td>
             </tr>
         {% endfor %}
     </table>

@@ -1,5 +1,7 @@
 from app import db
 import hashlib
+import time
+import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,6 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(64))
     nickname = db.Column(db.String(120))
     money = db.Column(db.Integer, default=0)
+    lastReadNotif = db.Column(db.DateTime, default=datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
     shares = db.relationship('Share', backref='author', lazy='dynamic')
     communities_owner = db.relationship('Community', backref='owner', lazy='dynamic')
     shares_creator = db.relationship('Share', backref='creator', lazy='dynamic')
@@ -114,8 +117,9 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
     msg = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime)
     user = db.relationship('User', backref='notifications')
 
     def add(user, msg):
-        notif = Notification(user_id=user, msg=msg)
+        notif = Notification(user_id=user, msg=msg, timestamp=datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
         db.session.add(notif)
