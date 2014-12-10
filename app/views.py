@@ -44,12 +44,18 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if form.create.data == '1': #Create account
             if user is None: #User does not exist
-                #Create user
-                email = form.email.data
-                password = hashlib.md5(form.password.data.encode('utf-8')).hexdigest()
-                user = User(email=email, password=password, nickname = email.split('@')[0])
-                db.session.add(user)
-                db.session.commit()
+                if re.match("^[^@]{1,64}@[^@]{1,255}$" ,form.email.data): #Email is valid
+                    #Create user
+                    email = form.email.data
+                    password = hashlib.md5(form.password.data.encode('utf-8')).hexdigest()
+                    user = User(email=email, password=password, nickname = email.split('@')[0])
+                    db.session.add(user)
+                    db.session.commit()
+                else:
+                    return render_template('login.html',
+                                           title='Sign In',
+                                           notif=g.notif.msg,
+                                           form=form)
             else: #User already exist => error
                 return render_template('login.html',
                                        title='Sign In',
@@ -216,7 +222,8 @@ def settings():
 
     if form.validate_on_submit():
         #Update email & nickname
-        g.user.email = form.email.data
+        if re.match("^[^@]{1,64}@[^@]{1,255}$" ,form.email.data): #Check email format
+            g.user.email = form.email.data
         g.user.nickname = form.nickname.data
 
         #Update password
