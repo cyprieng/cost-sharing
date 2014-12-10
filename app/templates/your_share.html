@@ -17,7 +17,12 @@
                 {% if not share.closed %}
                     <td><a class="ok" href="{{ url_for('close_share', share_id=share.id) }}"><span class="glyphicon glyphicon-ok"></span></a></td>
                     <td><a class="remove" href="{{ url_for('remove_share', share_id=share.id) }}"><span class="glyphicon glyphicon-remove"></span></a></td>
+                {% else %}
+                    <td></td>
+                    <td></td>
                 {% endif %}
+
+                <td><a href="{{ url_for('share', share_id=share.id) }}" class="btn btn-default btn-xlarge">Details</a></td>
             </tr>
         {% endfor %}
     </table>

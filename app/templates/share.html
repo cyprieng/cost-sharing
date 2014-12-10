@@ -5,6 +5,7 @@
 
     <table class="table">
         <tr><td>{{ share.author.nickname }}</td></tr>
+        <tr><td>{{ share.author.email }}</td></tr>
         <tr><td>{{ share.timestamp }}</td></tr>
         <tr><td>{{ share.people_in|length }} / {{ share.number_people }} people</td></tr>
         <tr><td>${{ share.price_per_people }} / ${{ share.price_total }}</td></tr>
@@ -14,5 +15,18 @@
         <a href="{{ url_for('joinshare', share_id=share.id) }}" class="btn btn-default btn-xlarge" {% if share.closed %}disabled="disabled"{% endif %}>Join share</a>
     {% else %}
         <a href="{{ url_for('leaveshare', share_id=share.id) }}" class="btn btn btn-danger btn-xlarge" {% if share.closed %}disabled="disabled"{% endif %}>Leave share</a>
+    {% endif %}
+
+    {% if user == share.author %}
+        <h2>User in the share</h2>
+
+        <table class="table">
+            {% for js in share.people_in %}
+                <tr>
+                    <td>{{ js.user.nickname }}</td>
+                    <td>{{ js.user.email }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endif %}
 {% endblock %}

@@ -260,6 +260,7 @@ def share(share_id):
                            title=share.title,
                            alreadyIn=alreadyIn,
                            notif=g.notif.msg,
+                           user=g.user,
                            share=share)
 
 @app.route('/money', methods=['GET', 'POST'])
