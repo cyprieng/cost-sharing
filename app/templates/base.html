@@ -109,5 +109,26 @@
             });
         </script>
     {% endif %}
+
+    {% if request.path==url_for('create_share') %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                //Calc price per people
+                function calcPerPeoplePrice(){
+                    num = $("#number_people").val();
+                    if(!isNaN(num) && num != 0 && !isNaN($("#total_price").val()) && $("#total_price").val() != 0){
+                        $("#price_per_people").val($("#total_price").val()/num);
+                    }
+                }
+
+                $("#total_price").change(function(){
+                    calcPerPeoplePrice();
+                });
+                $("#number_people").change(function(){
+                    calcPerPeoplePrice();
+                });
+            });
+        </script>
+    {% endif %}
   </body>
 </html>
