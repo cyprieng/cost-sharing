@@ -173,7 +173,12 @@ def list_community():
         return redirect(url_for('list_community'))
 
     form = SearchCommunityForm()
-    communities = Community.query.all()
+
+    if request.args.get('query'):
+        communities = Community.query.filter(Community.title.like("%"+ request.args.get('query') +"%")).all()
+        form.query.data = request.args.get('query')
+    else:
+        communities = Community.query.all()
     return render_template('list_community.html',
                            title='List of Community',
                            user=g.user,
