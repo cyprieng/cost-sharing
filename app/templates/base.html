@@ -65,6 +65,10 @@
     </nav>
 
     <div id="content" class="container">
+        {% if errorMsg %}
+            <p class="bg-danger">{{ errorMsg }}</p>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </div>
 

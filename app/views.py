@@ -52,11 +52,13 @@ def login():
                     db.session.add(user)
                     db.session.commit()
                 else:
+                    form.email.errors.append("Email is invalid")
                     return render_template('login.html',
                                            title='Sign In',
                                            notif=g.notif.msg,
                                            form=form)
             else: #User already exist => error
+                form.email.errors.append("Email already exists")
                 return render_template('login.html',
                                        title='Sign In',
                                        notif=g.notif.msg,
@@ -64,13 +66,15 @@ def login():
         elif user is None: #Wrong login
             return render_template('login.html',
                                    title='Sign In',
-                                   form=form)
-        elif not user.password == hashlib.md5(form.password.data.encode('utf-8')).hexdigest(): #Login successfull
-            return render_template('login.html',
-                                   title='Sign In',
+                                   errorMsg='Wrong email/password',
                                    notif=g.notif.msg,
                                    form=form)
-
+        elif not user.password == hashlib.md5(form.password.data.encode('utf-8')).hexdigest(): #Password error
+            return render_template('login.html',
+                                   title='Sign In',
+                                   errorMsg='Wrong email/password',
+                                   notif=g.notif.msg,
+                                   form=form)
 
         #Set remember me
         remember_me = False
@@ -129,6 +133,12 @@ def create_community():
 
             db.session.commit()
             return redirect(url_for('list_community'))
+        else:
+            return render_template('create_community.html',
+                                   title='Create a Community',
+                                   errorMsg='This community already exists',
+                                   notif=g.notif.msg,
+                                   form=form)
 
     return render_template('create_community.html',
                            title='Create a Community',
@@ -224,6 +234,8 @@ def settings():
         #Update email & nickname
         if re.match("^[^@]{1,64}@[^@]{1,255}$" ,form.email.data): #Check email format
             g.user.email = form.email.data
+        else:
+            form.email.errors.append("Invalid email format");
         g.user.nickname = form.nickname.data
 
         #Update password
@@ -234,7 +246,6 @@ def settings():
 
         db.session.add(g.user)
         db.session.commit()
-        return redirect(url_for('settings'))
 
     #Prefill the form
     form.email.data = g.user.email
