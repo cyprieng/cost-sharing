@@ -2,7 +2,18 @@
 {% block content %}
     <h1>Last shares</h1>
 
-    <table class="table">
+    <table class="table sortable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th data-defaultsort="desc">Time of the share</th>
+                <th>People In</th>
+                <th>Price per People / Total</th>
+                <th>Community</th>
+                <th></th>
+            </tr>
+        </thead>
         {% for m in members %}
             {% if user.isMemberValidate(m.community) %}
                 {% for share in m.community.shares %}
